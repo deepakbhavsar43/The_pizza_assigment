@@ -92,6 +92,17 @@ def menu():
         5. Quit
     """)
 
+def changeMenu():
+    print("""
+    Papa John, what would you like to change?
+    \t1.	Size
+    \t2.	Cheese filled or not
+    \t3.	Number of cheese toppings
+    \t4.	Number of pepperoni toppings
+    \t5.	Number of mushroom toppings
+    \t6.	Number of vegetable toppings
+    \t7.	Quit 
+    """)
 def validatePassword(password):
     if password == "deluxepizza":
         return True
@@ -126,11 +137,11 @@ if __name__ == "__main__":
                 for i in range(order):
                     temp = []
                     print(f"\nPizza {i+1}")
-                    size = input("Enter size of pizza small, medium or large > "),
-                    cheeseTop = int(input("Number of cheese topping to add > ")),
-                    pepTop = int(input("Number of pepperoni topping to add > ")),
-                    mushTop = int(input("Number of mushroom topping to add > ")),
-                    stuffCheese = input("Pizza base with stuffed cheese > "),
+                    size = input("Enter size of pizza small, medium or large > ")
+                    cheeseTop = int(input("Number of cheese topping to add > "))
+                    pepTop = int(input("Number of pepperoni topping to add > "))
+                    mushTop = int(input("Number of mushroom topping to add > "))
+                    stuffCheese = input("Pizza base with stuffed cheese > ")
                     veggieTop = int(input("Number of veggie topping to add > "))
                     pizza = DeluxePizza(
                         size,
@@ -143,16 +154,16 @@ if __name__ == "__main__":
                     cost = pizza.calcCost()
                     temp.extend([
                         size,
+                        stuffCheese,
                         cheeseTop,
                         pepTop,
                         mushTop,
-                        stuffCheese,
                         veggieTop,
-                        Cost
+                        cost
                     ])
                     todaysPizzas.append(temp)
             else:
-                print(f"Number of pizza we can make: {pizzaInStock}")
+                print(f"\nNumber of pizza we can make: {pizzaInStock}")
 
         if option == 2:
             password = input("enter password: ")
@@ -168,12 +179,17 @@ if __name__ == "__main__":
                     \nPizza  # 
                     \tPizza size: {pizza[0]}
                     \tCheese filled dough: {pizza[1]}
-                    \tNumber of cheese toppings: {pizza[2]}
-                    \tNumber of pepperoni toppings: {pizza[3]}
-                    \tNumber of mushroom toppings: {pizza[4]}
-                    \tNumber of vegetable toppings: {pizza[5]}
-                    \tPrice: ${pizza[6]}
+                    \tNumber of cheese toppings: {pizza[2].__str__()}
+                    \tNumber of pepperoni toppings: {pizza[3].__str__()}
+                    \tNumber of mushroom toppings: {pizza[4].__str__()}
+                    \tNumber of vegetable toppings: {pizza[5].__str__()}
+                    \tPrice: ${pizza[6].__str__()}
                 """)
+
+                changeMenu()
+
+                
+
             else:
                 print("***Given pizza number not found***")
                 print("Do you want to enter another pizza? Y or any to skip")
