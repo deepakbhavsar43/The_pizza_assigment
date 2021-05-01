@@ -103,6 +103,21 @@ def changeMenu():
     \t6.	Number of vegetable toppings
     \t7.	Quit 
     """)
+
+def displayPizza(pizza):
+    print(f"""
+        \nPizza  # 
+        \tPizza size: {pizza[0]}
+        \tCheese filled dough: {pizza[1]}
+        \tNumber of cheese toppings: {pizza[2].__str__()}
+        \tNumber of pepperoni toppings: {pizza[3].__str__()}
+        \tNumber of mushroom toppings: {pizza[4].__str__()}
+        \tNumber of vegetable toppings: {pizza[5].__str__()}
+        \tPrice: ${pizza[6].__str__()}
+    """)
+
+
+
 def validatePassword(password):
     if password == "deluxepizza":
         return True
@@ -174,21 +189,46 @@ if __name__ == "__main__":
 
             pizzaToUpdate = int(input("Which pizza you want to update > "))
             if 0 <= pizzaToUpdate and pizzaToUpdate <= len(todaysPizzas):
-                pizza = todaysPizzas[pizzaToUpdate]
-                print(f"""
-                    \nPizza  # 
-                    \tPizza size: {pizza[0]}
-                    \tCheese filled dough: {pizza[1]}
-                    \tNumber of cheese toppings: {pizza[2].__str__()}
-                    \tNumber of pepperoni toppings: {pizza[3].__str__()}
-                    \tNumber of mushroom toppings: {pizza[4].__str__()}
-                    \tNumber of vegetable toppings: {pizza[5].__str__()}
-                    \tPrice: ${pizza[6].__str__()}
-                """)
+                pizzaIngredients = todaysPizzas[pizzaToUpdate]
+                # print(f"""
+                #     \nPizza  # 
+                #     \tPizza size: {pizza[0]}
+                #     \tCheese filled dough: {pizza[1]}
+                #     \tNumber of cheese toppings: {pizza[2].__str__()}
+                #     \tNumber of pepperoni toppings: {pizza[3].__str__()}
+                #     \tNumber of mushroom toppings: {pizza[4].__str__()}
+                #     \tNumber of vegetable toppings: {pizza[5].__str__()}
+                #     \tPrice: ${pizza[6].__str__()}
+                # """)
+                displayPizza(pizzaIngredients)
 
-                changeMenu()
-
-                
+                while True:
+                    changeMenu()
+                    chOption = int(input("Enter choice > "))
+                    
+                    if chOption == 1:
+                        pizzaIngredients[0] = input("Enter size of pizza small, medium or large > ")
+                        displayPizza(pizzaIngredients)
+                    elif chOption == 2:
+                        pizzaIngredients[1] = input("Pizza base with stuffed cheese > ")
+                        displayPizza(pizzaIngredients)
+                    elif chOption == 3:
+                        pizzaIngredients[2] == int(input("Number of cheese topping to add > "))
+                        displayPizza(pizzaIngredients)
+                    elif chOption == 4:
+                        pizzaIngredients[3] = int(input("Number of pepperoni topping to add > "))
+                        displayPizza(pizzaIngredients)
+                    elif chOption == 5:
+                        pizzaIngredients[4] = int(input("Number of mushroom topping to add > "))
+                        displayPizza(pizzaIngredients)
+                    elif chOption == 6:
+                        pizzaIngredients[5] = int(input("Number of veggie topping to add > "))
+                        displayPizza(pizzaIngredients)
+                    elif chOption == 7:
+                        break
+                    else:
+                        print("\nEnter valid choice.\n")
+                        continue
 
             else:
                 print("***Given pizza number not found***")
@@ -198,4 +238,4 @@ if __name__ == "__main__":
                     continue
 
         if option == 5:
-            break
+            break   
