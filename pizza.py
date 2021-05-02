@@ -57,17 +57,18 @@ class DeluxePizza:
         cost = 0
         if self.size.lower() == "small":
             cost = 10 + (2 * total_toppings) + (3 * self.veggieTopping)
+            print(">> >> >>stuffedWithCheese", self.stuffedWithCheese)
             if self.stuffedWithCheese == 1:
                 cost = cost + 2
             
         if self.size.lower() == "medium":
             cost = 12 + (2 * total_toppings) + (3 * self.veggieTopping)
-            if self.stuffedWithCheese == 1:
+            if self.stuffedWithCheese == True:
                 cost = cost + 4
             
         if self.size.lower() == "large":
             cost = 14 + (2 * total_toppings) + (3 * self.veggieTopping)
-            if self.stuffedWithCheese == 1:
+            if self.stuffedWithCheese == True:
                 cost = cost + 6
             
         return cost.__str__()
@@ -107,16 +108,20 @@ def changeMenu():
 def displayPizza(pizza):
     print(f"""
         \nPizza  # 
-        \tPizza size: {pizza[0]}
-        \tCheese filled dough: {pizza[1]}
-        \tNumber of cheese toppings: {pizza[2].__str__()}
-        \tNumber of pepperoni toppings: {pizza[3].__str__()}
-        \tNumber of mushroom toppings: {pizza[4].__str__()}
-        \tNumber of vegetable toppings: {pizza[5].__str__()}
-        \tPrice: ${pizza[6].__str__()}
+        \tPizza size: {pizza.size}
+        \tCheese filled dough: {pizza.stuffedWithCheese}
+        \tNumber of cheese toppings: {pizza.cheeseTopping}
+        \tNumber of pepperoni toppings: {pizza.pepperoniTopping}
+        \tNumber of mushroom toppings: {pizza.mushroomTopping}
+        \tNumber of vegetable toppings: {pizza.veggieTopping}
+        \tPrice: ${pizza.calcCost()}
     """)
 
-
+def pizzasOfSize(pizza, ofsize):
+    if pizza.size == ofSize:
+        displayPizza(pizza)
+    else:
+        print(f"No pizza ordered of size {ofSize}.")
 
 def validatePassword(password):
     if password == "deluxepizza":
@@ -166,21 +171,10 @@ if __name__ == "__main__":
                         stuffCheese,
                         veggieTop                      
                     )
-                    cost = pizza.calcCost()
-                    temp.extend([
-                        size,
-                        stuffCheese,
-                        cheeseTop,
-                        pepTop,
-                        mushTop,
-                        veggieTop,
-                        cost
-                    ])
-                    todaysPizzas.append(temp)
+                    todaysPizzas.append(pizza)
             else:
                 print(f"\nNumber of pizza we can make: {pizzaInStock}")
-
-        if option == 2:
+        elif option == 2:
             password = input("enter password: ")
             i = 2
             while i>0 and validatePassword(password) == False:
@@ -189,53 +183,51 @@ if __name__ == "__main__":
 
             pizzaToUpdate = int(input("Which pizza you want to update > "))
             if 0 <= pizzaToUpdate and pizzaToUpdate <= len(todaysPizzas):
-                pizzaIngredients = todaysPizzas[pizzaToUpdate]
-                # print(f"""
-                #     \nPizza  # 
-                #     \tPizza size: {pizza[0]}
-                #     \tCheese filled dough: {pizza[1]}
-                #     \tNumber of cheese toppings: {pizza[2].__str__()}
-                #     \tNumber of pepperoni toppings: {pizza[3].__str__()}
-                #     \tNumber of mushroom toppings: {pizza[4].__str__()}
-                #     \tNumber of vegetable toppings: {pizza[5].__str__()}
-                #     \tPrice: ${pizza[6].__str__()}
-                # """)
-                displayPizza(pizzaIngredients)
+                pizzaObject = todaysPizzas[pizzaToUpdate]
+                displayPizza(pizzaObject)
 
                 while True:
                     changeMenu()
                     chOption = int(input("Enter choice > "))
-                    
+
                     if chOption == 1:
-                        pizzaIngredients[0] = input("Enter size of pizza small, medium or large > ")
-                        displayPizza(pizzaIngredients)
+                        size = input("Enter size of pizza small, medium or large > ")
+                        pizzaObject.size = size
                     elif chOption == 2:
-                        pizzaIngredients[1] = input("Pizza base with stuffed cheese > ")
-                        displayPizza(pizzaIngredients)
+                        stuffedWithCheese = input("Pizza base with stuffed cheese > ")
+                        pizzaObject.stuffedWithCheese = stuffedWithCheese
                     elif chOption == 3:
-                        pizzaIngredients[2] == int(input("Number of cheese topping to add > "))
-                        displayPizza(pizzaIngredients)
+                        cheeseTopping = int(input("Number of cheese topping to add > "))
+                        pizzaObject.cheeseTopping = cheeseTopping
                     elif chOption == 4:
-                        pizzaIngredients[3] = int(input("Number of pepperoni topping to add > "))
-                        displayPizza(pizzaIngredients)
+                        pepperoniTopping = int(input("Number of pepperoni topping to add > "))
+                        pizzaObject.pepperoniTopping = pepperoniTopping
                     elif chOption == 5:
-                        pizzaIngredients[4] = int(input("Number of mushroom topping to add > "))
-                        displayPizza(pizzaIngredients)
+                        mushroomTopping = int(input("Number of mushroom topping to add > "))
+                        pizzaObject.mushroomTopping = mushroomTopping
                     elif chOption == 6:
-                        pizzaIngredients[5] = int(input("Number of veggie topping to add > "))
-                        displayPizza(pizzaIngredients)
+                        veggieTopping = int(input("Number of veggie topping to add > "))
+                        pizzaObject.veggieTopping = veggieTopping
                     elif chOption == 7:
                         break
                     else:
                         print("\nEnter valid choice.\n")
                         continue
-
+                    displayPizza(pizzaObject)
             else:
                 print("***Given pizza number not found***")
                 print("Do you want to enter another pizza? Y or any to skip")
                 choice = input()
                 if choice.lower() == "n":
                     continue
-
-        if option == 5:
-            break   
+        
+        elif option == 3:
+            ofSize = input("Enter the size of the pizza to search for > ")
+            for obj in todaysPizzas:
+                pizzasOfSize(obj, ofSize)
+        elif option == 4:
+            pass
+        elif option == 5:
+            break 
+        else:
+            print("Enter valid option.")  
