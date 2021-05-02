@@ -57,18 +57,17 @@ class DeluxePizza:
         cost = 0
         if self.size.lower() == "small":
             cost = 10 + (2 * total_toppings) + (3 * self.veggieTopping)
-            print(">> >> >>stuffedWithCheese", self.stuffedWithCheese)
             if self.stuffedWithCheese == 1:
                 cost = cost + 2
             
         if self.size.lower() == "medium":
             cost = 12 + (2 * total_toppings) + (3 * self.veggieTopping)
-            if self.stuffedWithCheese == True:
+            if self.stuffedWithCheese == 1:
                 cost = cost + 4
             
         if self.size.lower() == "large":
             cost = 14 + (2 * total_toppings) + (3 * self.veggieTopping)
-            if self.stuffedWithCheese == True:
+            if self.stuffedWithCheese == 1:
                 cost = cost + 6
             
         return cost.__str__()
@@ -97,7 +96,7 @@ def changeMenu():
     print("""
     Papa John, what would you like to change?
     \t1.	Size
-    \t2.	Cheese filled or not
+    \t2.	Cheese filled or not (1 for True or 0 for False)
     \t3.	Number of cheese toppings
     \t4.	Number of pepperoni toppings
     \t5.	Number of mushroom toppings
@@ -107,21 +106,19 @@ def changeMenu():
 
 def displayPizza(pizza):
     print(f"""
-        \nPizza  # 
-        \tPizza size: {pizza.size}
-        \tCheese filled dough: {pizza.stuffedWithCheese}
-        \tNumber of cheese toppings: {pizza.cheeseTopping}
-        \tNumber of pepperoni toppings: {pizza.pepperoniTopping}
-        \tNumber of mushroom toppings: {pizza.mushroomTopping}
-        \tNumber of vegetable toppings: {pizza.veggieTopping}
-        \tPrice: ${pizza.calcCost()}
+    \nPizza  # 
+    \tPizza size: {pizza.size}
+    \tCheese filled dough: {pizza.stuffedWithCheese}
+    \tNumber of cheese toppings: {pizza.cheeseTopping}
+    \tNumber of pepperoni toppings: {pizza.pepperoniTopping}
+    \tNumber of mushroom toppings: {pizza.mushroomTopping}
+    \tNumber of vegetable toppings: {pizza.veggieTopping}
+    \tPrice: ${pizza.calcCost()}
     """)
 
 def pizzasOfSize(pizza, ofsize):
     if pizza.size == ofSize:
         displayPizza(pizza)
-    else:
-        print(f"No pizza ordered of size {ofSize}.")
 
 def validatePassword(password):
     if password == "deluxepizza":
@@ -131,16 +128,10 @@ def validatePassword(password):
 
 
 if __name__ == "__main__":
-    # pz = DeluxePizza("large", 1, 2, 1)
-    # cost = pz.calcCost()
-    # print("pizza bill : ", cost)
-    # size, stuffedWithCheese, cheeseTopping, pepprtoniTopping, mushroomTopping, veggieTopping = pz.pizza_ordered()
-    # print(f"pizza #\n\tPizza size: {size}\n\tCheese filled dough: {stuffedWithCheese}\n\tNumber of cheese topping: {cheeseTopping}\n\tNumber of pepperoni topping: {pepprtoniTopping}\n\tNumber of mushroom topping: {mushroomTopping}\n\tNumber of vegetable topping: {veggieTopping}")
     print("Welcome to Papa Jhon Pizzeria")
     pizzaInStock = 5
     print(f"Number of maximum pizza can be prepared: {pizzaInStock}.")
     todaysPizzas = []
-    # menu()
     Flag = True
     while Flag:
         menu()
@@ -226,8 +217,54 @@ if __name__ == "__main__":
             for obj in todaysPizzas:
                 pizzasOfSize(obj, ofSize)
         elif option == 4:
-            pass
+            while True:
+                print("""
+                Papa John, what information would you like?
+                1.	Cost and details of cheapest pizza
+                2.	Cost and details of most costly pizza
+                3.	Number of pizzas sold today
+                4.	Number of pizzas of a specific size
+                5.	Average cost of pizzas
+                6.	Quit
+                """)
+                infoChoice = int(input("Enter choice > "))
+                if infoChoice  == 1:
+                    pizzaCost = []
+                    for obj in todaysPizzas:
+                        price = obj.calcCost()
+                        pizzaCost.append(price)
+                    minCost = min(pizzaCost)
+                    minCostIndex = pizzaCost.index(minCost)
+                    displayPizza(todaysPizzas[minCostIndex])
+                elif infoChoice == 2:
+                    pizzaCost = []
+                    for obj in todaysPizzas:
+                        price = obj.calcCost()
+                        pizzaCost.append(price)
+                    maxCost = max(pizzaCost)
+                    maxCostIndex = pizzaCost.index(maxCost)
+                    displayPizza(todaysPizzas[maxCostIndex])
+                elif infoChoice == 3:
+                    print(f"Total {len(todaysPizzas)} pizza sold today.")
+                elif infoChoice == 4:
+                    pizzaSizeToSearch = input("Enter size of the pizza > ")
+                    count = 0
+                    for obj in todaysPizzas:
+                        if obj.size == pizzaSizeToSearch:
+                            count += 1
+                    print(f"Total count of {pizzaSizeToSearch} pizza is {count}.")
+                elif infoChoice == 5:
+                    sum , length = 0, len(todaysPizzas)
+                    for obj in todaysPizzas:
+                        sum = sum + int(obj.calcCost())
+                    averageCost = sum/length
+                    print(f"Average cost of pizza is {averageCost}")
+                elif infoChoice == 6:
+                    break
+                else:
+                    print("Enter a valid choice > ")
         elif option == 5:
+            print("***shuting down***")
             break 
         else:
             print("Enter valid option.")  
