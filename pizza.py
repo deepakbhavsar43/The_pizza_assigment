@@ -137,11 +137,16 @@ if __name__ == "__main__":
         menu()
         option = int(input("Please enter your choice > "))
         if option == 1:
+            i = 1
             password = input("enter password: ")
-            i = 2
-            while i>0 and validatePassword(password) == False:
-                password = input("enter valid password > ") 
-                i = i - 1
+            while i<=3 and validatePassword(password) == False:
+                if i != 3:
+                    i = i + 1
+                    password = input("enter valid password > ") 
+                else:
+                    break
+            if i == 3 and validatePassword(password) == False:
+                continue
 
             order = int(input("Number of pizza to make > "))
             if order <= pizzaInStock:
@@ -166,11 +171,16 @@ if __name__ == "__main__":
             else:
                 print(f"\nNumber of pizza we can make: {pizzaInStock}")
         elif option == 2:
+            i = 1
             password = input("enter password: ")
-            i = 2
-            while i>0 and validatePassword(password) == False:
-                password = input("enter valid password > ") 
-                i = i - 1
+            while i<=3 and validatePassword(password) == False:
+                if i != 3:
+                    i = i + 1
+                    password = input("enter valid password > ") 
+                else:
+                    break
+            if i == 3 and validatePassword(password) == False:
+                continue
 
             pizzaToUpdate = int(input("Which pizza you want to update > "))
             if 0 <= pizzaToUpdate and pizzaToUpdate <= len(todaysPizzas):
